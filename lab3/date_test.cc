@@ -50,8 +50,6 @@ int main() {
 		print(d1);
 		cout << endl;
 	}
-	cout << "TEST" << endl;
-	cout << d1 << endl << endl;
 	
 	// Check so 'next' functions correctly from one year to the next
     cout << "--- New Year's Eve and the next day:" << endl;
