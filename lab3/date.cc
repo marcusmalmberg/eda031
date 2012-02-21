@@ -4,6 +4,7 @@
  */
 
 #include <ctime>    // for C-routines: time and localtime
+#include <sstream>
 #include "date.h"
 
 namespace cpp_lab3 {
@@ -17,22 +18,28 @@ namespace cpp_lab3 {
         day = locTime->tm_mday;
     }
     
-    Date::Date(int y, int m, int d) {
-    	year = y;
-		month = m;
-		day = d;
-	}
+    Date::Date(int y, int m, int d) : year(y), month(m), day(d) {}
 
 	Date::Date(std::string date) {
-		/*
-		year = date.substr(0, 4);;
-		month = date.substr(6, 2);
-		day = date.substr(8, 2);
-		*/
-		std::cout << "Date string: " << date << std::endl;
-		year = 1337;
-		month = 05;
-		day = 29;
+		using namespace std;
+		stringstream ss(date);
+		char c;
+		ss >> year >> c;
+		if (c == '-') {
+			ss >> month >> c;
+			if (c == '-') {
+				ss >> day;
+			} else {
+				ss.setstate(ios_base::failbit);
+			}
+		} else {
+			ss.setstate(ios_base::failbit);
+		}
+		if (year < 0 || month < 0 || month > 12 || day < 0 || day > daysPerMonth[month]) {
+			year = 1970;
+			month = 1;
+			day = 1;
+		}
 	}
     
     int Date::getYear() const {

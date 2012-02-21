@@ -4,7 +4,7 @@
 using namespace std;
 
 void replace_all(string& s, const string& from, const string& to) {
-	size_t pos = 0;
+	string::size_type  pos = 0;
 
 	while(true) {
 		// Find next occurance of the needle
