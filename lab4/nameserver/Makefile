@@ -11,5 +11,9 @@ CXXFLAGS += -Wmissing-braces -Wparentheses -Wold-style-cast
 vec: VectorNameServer.o
 	$(CXX) -o $@ $^
 
+map: MapNameServer.o
+	$(CXX) -o $@ $^
+
 # Dependencies, the implicit rule .cc => .o is used
 VectorNameServer.o: VectorNameServer.h nameserverinterface.h
+MapNameServer.o: MapNameServer.h nameserverinterface.h
