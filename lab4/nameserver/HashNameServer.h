@@ -13,7 +13,7 @@ namespace cpp_lab4 {
         	virtual bool remove(const HostName&);
         	virtual IPAddress lookup(const HostName&) const;
 		private:
-			hash<HostName, IPAddress> h;
+			map<HostName, IPAddress> h;
 	};
 }
 
