@@ -6,6 +6,7 @@ using namespace std;
 
 namespace cpp_lab4 {
 	typedef vector<pair<HostName, IPAddress> >::iterator iter_type;
+	typedef vector<pair<HostName, IPAddress> >::const_iterator iter_type_const;
 
 	struct first_equal : public binary_function<pair<HostName, IPAddress>, HostName, bool> {
 		bool operator() (const pair<HostName, IPAddress>& p, const HostName& n) const {
@@ -31,7 +32,7 @@ namespace cpp_lab4 {
 	}	
 
 	IPAddress VectorNameServer::lookup(const HostName& host) const {
-		iter_type itr = find_if(v.begin(), v.end(), bind2nd(first_equal(), host));
+		iter_type_const itr = find_if(v.begin(), v.end(), bind2nd(first_equal(), host));
 		if (itr != v.end()) {
 			return itr->second;
 		}
