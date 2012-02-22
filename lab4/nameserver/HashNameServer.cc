@@ -6,6 +6,10 @@ using namespace std;
 
 namespace cpp_lab4 {
 
+	HashNameServer::HashNameServer(int size) {
+		// Do something wiht the size
+	}
+	
 	HashNameServer::~HashNameServer() {
 	}
 

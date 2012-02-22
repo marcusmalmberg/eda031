@@ -8,7 +8,8 @@ using namespace std;
 namespace cpp_lab4 {
 	class HashNameServer : public NameServerInterface {
 		public:
-        	virtual ~HashNameServer();
+        	HashNameServer(int size);
+			virtual ~HashNameServer();
         	virtual void insert(const HostName&, const IPAddress&);
         	virtual bool remove(const HostName&);
         	virtual IPAddress lookup(const HostName&) const;
