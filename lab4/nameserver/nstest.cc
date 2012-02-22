@@ -4,7 +4,7 @@
 #include "nameserverinterface.h"
 #include "VectorNameServer.h"
 #include "MapNameServer.h"
-//#include "HashNameServer.h"
+#include "HashNameServer.h"
 #include <iostream>
 #include <cassert>
 
@@ -42,7 +42,7 @@ int main() {
      * The parameter to the constructor is the size of the
      * hash table.
      */
-//    HashNameServer hns(4711);
-//    test(hns);
+    HashNameServer hns(4711);
+    test(hns);
     cout << "Hash passed ..." << endl;
 }
