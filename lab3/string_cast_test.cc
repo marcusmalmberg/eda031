@@ -1,5 +1,5 @@
 #include <iostream>
-#include "string_cast.h"
+#include "string_cast.cc"
 #include "date.h"
 
 using namespace std;

@@ -29,5 +29,5 @@ date.o: date.cc date.h
 tostring_test.o: tostring_test.cc tostring.h date.h
 tostring.o: tostring.h
 
-string_cast_test.o: string_cast_test.cc string_cast.h date.h
-string_cast.o: string_cast.h
+string_cast_test.o: string_cast_test.cc string_cast.cc date.h
+string_cast.o: string_cast.cc
