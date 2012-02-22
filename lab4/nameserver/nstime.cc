@@ -3,9 +3,9 @@
  * the three different name server implementations.
  */
 #include "nameserverinterface.h"
-#include "vectornameserver.h"
-#include "mapnameserver.h"
-#include "hashnameserver.h"
+#include "VectorNameServer.h"
+#include "MapNameServer.h"
+#include "HashNameServer.h"
 #include <iostream>
 #include <fstream>
 #include <string>
