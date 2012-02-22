@@ -2,6 +2,7 @@
 #include "string_cast.h"
 #include "date.h"
 using namespace std;
+using namespace cpp_lab3;
 
 int main() {
 	try {

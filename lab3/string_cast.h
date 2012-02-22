@@ -3,9 +3,11 @@
 
 #include <string>
 
-struct StringCastException {};
+namespace cpp_lab3 {
+	struct StringCastException {};
 
-template <typename T>
-T string_cast(std::string s);
+	template <typename T>
+	T string_cast(std::string s);
+}
 
 #endif

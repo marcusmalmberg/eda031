@@ -2,6 +2,7 @@
 #include "tostring.h"
 #include "date.h"
 using namespace std;
+using namespace cpp_lab3;
 
 int main() {
 	double d = 1.234;
