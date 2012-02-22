@@ -1,5 +1,5 @@
-#ifndef VECTOR_NAME_SERVER_H
-#define VECTOR_NAME_SERVER_H
+#ifndef MAP_NAME_SERVER_H
+#define MAP_NAME_SERVER_H
 
 #include <map>
 #include "nameserverinterface.h"
