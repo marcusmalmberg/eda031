@@ -6,12 +6,6 @@ using namespace std;
 
 namespace cpp_lab4 {
 
-	struct first_equal : public binary_function<pair<HostName, IPAddress>, HostName, bool> {
-		bool operator() (const pair<HostName, IPAddress>& p, const HostName& n) const {
-			return p.first == n;
-		}
-	};
-
 	MapNameServer::~MapNameServer() {
 	}
 
