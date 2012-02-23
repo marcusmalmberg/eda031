@@ -16,7 +16,7 @@ namespace cpp_lab3 {
         int getMonth() const;        // get the month
         int getDay() const;          // get the day
         void next();                 // advance to next day
-		friend std::ostream& operator<<(std::ostream& out, Date& d);
+		friend std::ostream& operator<<(std::ostream& out, const Date& d);
 		friend std::istream& operator>>(std::istream& in, Date& d);
 	private:
 		Date(std::string date);

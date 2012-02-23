@@ -10,5 +10,5 @@ int main() {
 	string sd = toString(d);
 	string st = toString(today);
 	cout << "sd = " << sd << endl;
-	//cout << "st = " << st << endl;
+	cout << "st = " << st << endl;
 }

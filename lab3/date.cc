@@ -35,7 +35,7 @@ namespace cpp_lab3 {
 		} else {
 			ss.setstate(ios_base::failbit);
 		}
-		if (year < 0 || month < 0 || month > 12 || day < 0 || day > daysPerMonth[month]) {
+		if (year < 0 || month < 0 || month > 12 || day < 0 || day > daysPerMonth[month-1]) {
 			year = 1970;
 			month = 1;
 			day = 1;
@@ -66,7 +66,7 @@ namespace cpp_lab3 {
 		}
 	}
 
-	std::ostream& operator<<(std::ostream& out, Date& d) {
+	std::ostream& operator<<(std::ostream& out, const Date& d) {
 		out << d.getYear() << "-";
 		if (d.getMonth() < 10)
 			out << "0";
