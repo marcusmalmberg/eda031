@@ -1,33 +1,23 @@
-#include <map>
-#include <utility>
-#include <algorithm>
 #include "HashNameServer.h"
+
 using namespace std;
 
 namespace cpp_lab4 {
 
-	HashNameServer::HashNameServer(int size) {
-		// Do something wiht the size
-	}
+	HashNameServer::HashNameServer(size_t size) : m(HashMap(size)) {}
 	
-	HashNameServer::~HashNameServer() {
-	}
+	HashNameServer::~HashNameServer() {}
 
     void HashNameServer::insert(const HostName& host, const IPAddress& ip) {
-		h[host] = ip;
+		m.put(host, ip);
 	}
 
     bool HashNameServer::remove(const HostName& host) {
-		size_t nRemoved = h.erase(host);
-		return nRemoved > 0;
+		return false;//m.erase(host);
 	}	
 
 	IPAddress HashNameServer::lookup(const HostName& host) const {
-		map<HostName, IPAddress>::const_iterator itr = h.find(host);
-		if (itr != h.end()) {
-			return itr->second;
-		}
-		return NON_EXISTING_ADDRESS;
+		return 1;//m.get(host);
 	}
 
 }
