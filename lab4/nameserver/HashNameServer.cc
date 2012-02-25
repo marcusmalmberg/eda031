@@ -13,11 +13,11 @@ namespace cpp_lab4 {
 	}
 
     bool HashNameServer::remove(const HostName& host) {
-		return false;//m.erase(host);
+		return m.erase(host);
 	}	
 
 	IPAddress HashNameServer::lookup(const HostName& host) const {
-		return 1;//m.get(host);
+		return m.get(host);
 	}
 
 }
