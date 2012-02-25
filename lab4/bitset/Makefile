@@ -15,6 +15,13 @@ debug: nameserver_test
 simple_bit_test: simplebitsettest.o simplebitset.o
 	$(CXX) -o $@ $^
 
+bit_test: bitsettest1.o bitset.o bitreference.o
+	$(CXX) -o $@ $^
+
 # Dependencies, the implicit rule .cc => .o is used
 simplebitsettest.o: simplebitsettest.cc simplebitset.h
 simplebitset.o: simplebitset.h
+
+bitsettest1.o: bitsettest1.cc
+bitset.o: bitset.h bitreference.h
+bitreference.o: bitreference.h bitset.h
