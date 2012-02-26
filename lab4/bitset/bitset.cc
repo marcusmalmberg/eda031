@@ -5,7 +5,7 @@
 
 #include "bitset.h"
 #include "bitreference.h"
-//#include "bitsetiterator.h"
+#include "bitsetiterator.h"
 
 namespace cpp_lab4 {
     const size_t Bitset::BPW;
@@ -20,17 +20,13 @@ namespace cpp_lab4 {
      * Uncomment the following function definitions when you 
      * have written the BitsetIterator class.
      */
-    /*
+    
     BitsetIterator Bitset::begin() {
-        //
-        // *** IMPLEMENT ***
-        //
+		return BitsetIterator(&bits, 0);
     }
     
     BitsetIterator Bitset::end() {
-        //
-        // *** IMPLEMENT ***
-        //
+		return BitsetIterator(&bits, BPW);
     }
-     */
+    
 }

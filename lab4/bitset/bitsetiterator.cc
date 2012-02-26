@@ -8,23 +8,15 @@ namespace cpp_lab4 {
 	}
 	
     bool BitsetIterator::operator!=(const BitsetIterator& bsi) const {
-        //
-        // *** IMPLEMENT ***
-        //
-        return true;
+		return !(*p_bits == *bsi.p_bits && pos == bsi.pos);
     }
     
     BitsetIterator& BitsetIterator::operator++() {
-        //
-        // *** IMPLEMENT ***
-        //
+		++pos;
         return *this;
     }
     
     BitReference BitsetIterator::operator*() {
-        //
-        // *** IMPLEMENT ***
-        //
         return *this;
     }
 }

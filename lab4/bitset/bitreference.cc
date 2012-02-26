@@ -14,14 +14,11 @@ namespace cpp_lab4 {
     }
     
     BitReference& BitReference::operator=(const BitReference& bsr) {
-	
-		bool x = ((*bsr.p_bits & (1L << bsr.pos)) != 0);
-		if(x) {
+		if(bsr) {
 			*p_bits |= (1L << pos);
 		} else {
 			*p_bits &= ~(1L << pos);
 		}
-
         return *this;
     }
     

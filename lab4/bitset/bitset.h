@@ -21,16 +21,16 @@
 
 namespace cpp_lab4 {
     class BitReference;
-    //class BitsetIterator;
+    class BitsetIterator;
     
     class Bitset {
         friend class BitReference;
-        //friend class BitsetIterator;
+        friend class BitsetIterator;
     public:
         Bitset();
         BitReference operator[](size_t pos);    
-        //BitsetIterator begin();
-        //BitsetIterator end();
+        BitsetIterator begin();
+        BitsetIterator end();
     private:
         typedef unsigned long BitStorage;
         BitStorage bits;

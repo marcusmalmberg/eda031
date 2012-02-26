@@ -62,7 +62,12 @@ namespace cpp_lab4 {
 
 	size_t HashMap::hash(const HostName& host) const {
 		size_t res = 0;
-		for (HostName::const_iterator i = host.begin(); i < host.end(); ++i) {
+		HostName::const_iterator i = host.begin();
+		++i;
+		++i;
+		++i;
+		++i;
+		for (; i < host.end(); ++i) {
 			res += *i;
 		}
 		return res % size;
