@@ -9,8 +9,6 @@ using namespace std;
 
 namespace cpp_lab4 {
 	typedef vector<pair<HostName, IPAddress> > inner_vec;
-	typedef size_t hash_type;
-	typedef vector<pair<hash_type, inner_vec*> > outer_vec;
 
 	class HashMap {
 		public:
@@ -19,9 +17,8 @@ namespace cpp_lab4 {
 			IPAddress get(const HostName& host) const;
 			bool erase(const HostName& host);
 		private: 
-			outer_vec v;
+			vector<inner_vec> v;
 			size_t hash(const HostName& host) const;
-			inner_vec* getInnerVector(const hash_type hash); 
 			size_t size;
 	};
 }
