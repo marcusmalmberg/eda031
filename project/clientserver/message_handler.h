@@ -12,7 +12,15 @@ namespace news_server {
 
 	class MessageHandler {
 	public:
-
+		MessageHandler(Connection c) : conn(c);
+		size_t read_num();
+		string read_str();
+		void write_num(const size_t n);
+		void write_str(const string& s);
+	private:
+		int read_int();
+		void write_int(int i);
+		Connection conn;
 	};
 
 }

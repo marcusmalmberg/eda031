@@ -9,10 +9,9 @@ namespace news_server {
 
 	class Newsgroup {
 	public:
-		Newsgroup(const size_t _id, const string& _name) : id(_id), name(_name);
-	private:
 		size_t id;
 		string name;
+		Newsgroup(const size_t _id, const string& _name) : id(_id), name(_name);
 	};
 
 }
