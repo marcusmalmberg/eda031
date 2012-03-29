@@ -19,10 +19,10 @@ all: lib news_server news_client
 lib: libclientserver.a
 
 news_server: news_server.o
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ -L. -lclientserver
 
 news_client: news_server.o
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ -L. -lclientserver
 
 # Create the library; ranlib is for Darwin and maybe other systems.
 # Doesn't seem to do any damage on other systems.
