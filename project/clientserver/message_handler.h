@@ -2,25 +2,23 @@
 #define MESSAGE_HANDLER_H
 
 #include <string>
-#include "protocol.h"
-#include "newsgroup.h"
-#include "article.h"
+
+#include "connection.h"
 
 using namespace std;
+using namespace client_server;
 
 namespace news_server {
 
 	class MessageHandler {
 	public:
-		MessageHandler(Connection c) : conn(c);
-		size_t read_num();
-		string read_str();
-		void write_num(const size_t n);
-		void write_str(const string& s);
+		static size_t read_num(const Connection* conn);
+		static string read_str(const Connection* conn);
+		static void write_num(const Connection* conn, const size_t n);
+		static void write_str(const Connection* conn, const string& s);
 	private:
-		int read_int();
-		void write_int(int i);
-		Connection conn;
+		static int read_int(const Connection* conn);
+		static void write_int(const Connection* conn, int i);
 	};
 
 }

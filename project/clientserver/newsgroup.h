@@ -1,7 +1,7 @@
 #ifndef NEWSGROUP_H
 #define NEWSGROUP_H
 
-#include <vector>
+#include <string>
 
 using namespace std;
 
@@ -11,7 +11,7 @@ namespace news_server {
 	public:
 		size_t id;
 		string name;
-		Newsgroup(const size_t _id, const string& _name) : id(_id), name(_name);
+		Newsgroup(const size_t _id, const string& _name) : id(_id), name(_name) {};
 	};
 
 }

@@ -3,18 +3,26 @@
 # connection.o and server.o
 #
 
-CXX		 = clang
+CXX			 = g++
 CXXFLAGS	 = -ggdb  -Wall -W -Werror -pedantic-errors
-CXXFLAGS	+= -Wmissing-braces -Wparentheses -std=c++11
+CXXFLAGS	+= -Wmissing-braces -Wparentheses -std=c++0x
 # The following option cannot be used since some of the socket
 # macros give warnings on "old-style-cast"
 #CXXFLAGS	+= -Wold-style-cast
 
 SRC	= $(wildcard *.cc)
 
-.PHONY: all clean cleaner
+.PHONY: all lib clean cleaner
 
-all: libclientserver.a
+all: lib news_server news_client
+
+lib: libclientserver.a
+
+news_server: news_server.o
+	$(CXX) -o $@ $^
+
+news_client: news_server.o
+	$(CXX) -o $@ $^
 
 # Create the library; ranlib is for Darwin and maybe other systems.
 # Doesn't seem to do any damage on other systems.
