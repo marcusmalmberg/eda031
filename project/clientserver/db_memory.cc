@@ -5,7 +5,7 @@ using namespace std;
 
 namespace news_server {
 
-	vector<Newsgroup> DBMemory::list_ng() const {
+	virtual vector<Newsgroup> DBMemory::list_ng() const {
 		return ngs;
 	}
 

@@ -1,45 +1,48 @@
 #include "message_handler.h"
 #include "protocol.h"
 
+using namespace protocol;
+
 namespace news_server {
 
-	static size_t MessageHandler::read_num(const Connection* conn) {
+	size_t MessageHandler::read_num(const Connection* conn) {
 		read_int(conn);
 		return read_int(conn);
 	}
 
-	static string MessageHandler::read_str(const Connection* conn) {
+	string MessageHandler::read_str(const Connection* conn) {
 		read_int(conn);
 		int size = read_int(conn);
 		string s;
-		s.capacity(size);
+		s.reserve(size);
 		for (int i = 0; i < size; ++i) {
-			s[i] = conn->read(conn);
+			s[i] = conn->read();
 		}
+		return s;
 	}
 
-	static void MessageHandler::write_num(const Connection* conn, const size_t n) {
+	void MessageHandler::write_num(const Connection* conn, const size_t n) {
 		write_int(conn, Protocol::PAR_NUM);
 		write_int(conn, n);
 	}
 
-	static void MessageHandler::write_str(const Connection* conn, const string& s) {
+	void MessageHandler::write_str(const Connection* conn, const string& s) {
 		write_int(conn, Protocol::PAR_STRING);
 		write_int(conn, s.size());
 		for (auto i = s.begin(); i != s.end(); ++i) {
-			conn->write(conn, *i);
+			conn->write(*i);
 		}
 	}
 
-	static int read_int(const Connection* conn) {
+	int read_int(const Connection* conn) {
 		unsigned char c1 = conn->read();
 		unsigned char c2 = conn->read();
 		unsigned char c3 = conn->read();
 		unsigned char c4 = conn->read();
-		return b1 << 24 | b2 << 16 |b3 << 8 | b4;
+		return c1 << 24 | c2 << 16 | c3 << 8 | c4;
 	}
 	
-	static void write_int(const Connection* conn, int i) {
+	void write_int(const Connection* conn, int i) {
 		conn->write((i >> 24) & 0xFF);
 		conn->write((i >> 16) & 0xFF);
 		conn->write((i >> 8) & 0xFF);
