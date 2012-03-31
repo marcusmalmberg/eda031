@@ -1,14 +1,14 @@
 #ifndef ANS_CREATE_NG_PACKET_H
 #define ANS_CREATE_NG_PACKET_H
 
-#include "base_packet.h"
+#include "ans_packet.h"
 
-namespace news_server {
+namespace protocol {
 
-	class AnsListNgPacket : public BasePacket {
+	class AnsCreateNgPacket : public AnsPacket {
 	public:
-		size_t ans;
-		size_t err;
+		void read(const Connection* conn);
+		void write(const Connection* conn);
 	};
 
 }

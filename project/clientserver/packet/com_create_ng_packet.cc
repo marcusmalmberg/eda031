@@ -1,4 +1,4 @@
-namespace news_server {
+namespace protocol {
 
 	void ComCreateNgPacket::read(const Connection* conn) {
 		name = MessageHandler::read_string(conn);

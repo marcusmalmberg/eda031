@@ -1,4 +1,8 @@
-namespace news_server {
+#include <string>
+
+using namespace std;
+
+namespace protocol {
 
 	void AnsListNgPacket::read(const Connection* conn) {
 		size_t n = MessageHandler::read_num(conn);

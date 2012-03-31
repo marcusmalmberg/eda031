@@ -1,4 +1,4 @@
-namespace news_server {
+namespace protocol {
 
 	void ComListNgPacket::read(const Connection* conn) {
 		MessageHandler::read_cmd(conn);

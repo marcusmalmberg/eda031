@@ -3,9 +3,13 @@
 
 #include "base_packet.h"
 
-namespace news_server {
+namespace protocol {
 
-	class ComListNgPacket : public BasePacket {};
+	class ComListNgPacket : public BasePacket {
+	public:
+        void read(const Connection* conn);
+		void write(const Connection* conn);
+	};
 
 }
 

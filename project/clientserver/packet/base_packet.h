@@ -1,13 +1,11 @@
 #ifndef BASE_PACKET_H
 #define BASE_PACKET_H
 
-#include "protocol.h"
-#include "message_handler.h"
+#include "../protocol.h"
 
-using namespace std;
 using namespace client_server;
 
-namespace news_server {
+namespace protocol {
 	
 	class BasePacket {
 	public:

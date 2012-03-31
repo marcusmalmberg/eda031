@@ -1,6 +1,6 @@
 namespace protocol {
 
-	void AnsCreateNgPacket::read(const Connection* conn) {
+	void AnsDeleteNgPacket::read(const Connection* conn) {
 		ans = MessageHandler::read_cmd(conn);
 		if (ans == Protocol::ANS_NAK) {
 			err = MessageHandler::read_cmd(conn);
@@ -8,8 +8,8 @@ namespace protocol {
 		MessageHandler::read_cmd(conn);
 	}
 
-	void AnsCreateNgPacket::write(const Connection* conn) {
-		MessageHandler::write_cmd(conn, Protocol::ANS_CREATE_NG);
+	void AnsDeleteNgPacket::write(const Connection* conn) {
+		MessageHandler::write_cmd(conn, Protocol::ANS_DELETE_NG);
 		MessageHandler::write_cmd(conn, ans);
 		if (ans == Protocol::ANS_NAK) {
 			MessageHandler::write_cmd(conn, err);
