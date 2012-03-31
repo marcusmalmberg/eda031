@@ -28,13 +28,8 @@ int main(int argc, char* argv[]){
 		Connection* conn = server.waitForActivity();
 		if (conn != 0) {
 			try {
-				size_t nbr = MessageHandler::read_num(conn);
-				if (nbr > 0)
-					cout << "Positive" << endl;
-				else if (nbr == 0)
-					cout << "Zero" << endl;
-				else
-					cout << "Negative" << endl;
+				MessageHandler::read_num(conn);
+				MessageHandler::write_str(conn, "HEJ!");
 			}
 			catch (ConnectionClosedException&) {
 				server.deregisterConnection(conn);

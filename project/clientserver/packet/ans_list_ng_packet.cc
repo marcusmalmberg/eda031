@@ -1,24 +1,25 @@
 namespace news_server {
 
-	void AnsListNgPacket::read_data(const istream& in) {
-		size_t n = read_num(in);
+	void AnsListNgPacket::read(const Connection* conn) {
+		size_t n = MessageHandler::read_num(conn);
 		for (size_t i = 0; i < n; ++i) {
-			size_t id = read_num(in);
-			string name = read_str(in);
+			size_t id = MessageHandler::read_num(conn);
+			string name = MessageHandler::read_str(conn);
 			Newsgroup ng(id, name);
 			ngs.push_back(ng);
 		}
+		MessageHandler::read_cmd(conn);
 	}
 
-	void AnsListNgPacket::write_data(ostream& out) {
-		out << Protocol::ANS_LIST_NG << " ";
+	void AnsListNgPacket::write(const Connection* conn) {
+		MessageHandler::write_cmd(conn, Protocol::ANS_LIST_NG);
 		size_t n = ngs.size();
-	   	write_num(out, n);
+		MessageHandler::write_num(conn, n);
 		for (size_t i = 0; i < n; ++i) {
-			write_num(out, ngs[i].id);
-			write_str(out, ngs[i].name);
+			MessageHandler::write_num(conn, ngs[i].id);
+			MessageHandler::write_str(conn, ngs[i].name);
 		}
-		out << Protocol::ANS_END;
+		MessageHandler::write_cmd(conn, Protocol::ANS_END);
 	}
 
 }

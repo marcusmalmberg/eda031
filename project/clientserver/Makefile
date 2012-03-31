@@ -21,13 +21,8 @@ lib: libclientserver.a
 news_server: news_server.o message_handler.o 
 	$(CXX) -o $@ $^ -L. -lclientserver
 
-news_client: news_server.o
+news_client: news_client.o message_handler.o
 	$(CXX) -o $@ $^ -L. -lclientserver
-
-# .o files
-
-#message_handler.o: message_handler.cc protocol.h
-#	$(CXX) $(CXXFLAGS) -c -o $@ $^ -L. -lclientserver
 
 # Create the library; ranlib is for Darwin and maybe other systems.
 # Doesn't seem to do any damage on other systems.

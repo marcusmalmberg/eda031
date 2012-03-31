@@ -1,12 +1,12 @@
 namespace news_server {
 
-	void ComListNgPacket::read_data(const istream& in) {
-		size_t tok;
-		in >> tok;
+	void ComListNgPacket::read(const Connection* conn) {
+		MessageHandler::read_cmd(conn);
 	}
 
-	void ComListNgPacket::write_data(ostream& out) {
-		out << Protocol::COM_LIST_NG << " " << Protocol::COM_END;
+	void ComListNgPacket::write(const Connection* conn) {
+		MessageHandler::write_cmd(conn, Protocol::COM_LIST_NG);
+		MessageHandler::write_cmd(conn, Protocol::COM_END);
 	}
 
 }
