@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
 			if (cmd == "list") {
 				cin >> cmd;
 				if (cmd != "ngs") {    // LIST_ART
-					cout << "Listing articles for ng with id:" << cmd << endl;
+					cout << "Listing articles for ng with id: " << cmd << endl;
 					size_t id = atoi(cmd.c_str());
 					ComListArtPacket com;
 					com.id = id;
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
 					MessageHandler::read_cmd(&conn);
 					ans.read(&conn);
 					for_each(ans.arts.begin(), ans.arts.end(), [] (Article a) {
-						cout << a.id << ". " << a.title << " From: " << a.author << endl;
+						cout << a.id << ". " << a.title << endl;
 					});
 				} else { 	// LIST_NG
 					cout << "Listing all newsgroups:" << endl;
