@@ -1,7 +1,7 @@
 namespace protocol {
 
 	void ComCreateNgPacket::read(const Connection* conn) {
-		name = MessageHandler::read_string(conn);
+		name = MessageHandler::read_str(conn);
 		MessageHandler::read_cmd(conn);
 	}
 
