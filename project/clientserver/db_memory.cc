@@ -26,6 +26,7 @@ namespace news_server {
 		if (itr != ngs.end()) {
 			return Protocol::ERR_NG_ALREADY_EXISTS;
 		}
+		arts[ng_next_id];
 		Newsgroup ng(ng_next_id++, name);
 		ngs.push_back(ng);		
 		return Protocol::ANS_ACK;
