@@ -13,6 +13,7 @@ namespace protocol {
 	public:
         void read(const Connection* conn);
         void write(const Connection* conn);
+		size_t ng_id;
         string title;
         string author;
         string text;
