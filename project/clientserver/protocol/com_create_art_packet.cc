@@ -11,12 +11,12 @@ namespace protocol {
 	}
 
 	void ComCreateArtPacket::write(const Connection* conn) {
-		MessageHandler::write_cmd(Protocol::COM_CREATE_ART);
-		MessageHandler::write_num(ng_id);
-		MessageHandler::write_str(title);
-		MessageHandler::write_str(author);
-		MessageHandler::write_str(text);
-		MessageHandler::write_cmd(Protocol::COM_END);
+		MessageHandler::write_cmd(conn, Protocol::COM_CREATE_ART);
+		MessageHandler::write_num(conn, ng_id);
+		MessageHandler::write_str(conn, title);
+		MessageHandler::write_str(conn, author);
+		MessageHandler::write_str(conn, text);
+		MessageHandler::write_cmd(conn, Protocol::COM_END);
 	}
 
 }
