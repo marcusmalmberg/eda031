@@ -6,10 +6,18 @@
 #include "protocol/protocol.h"
 #include "protocol/com_list_ng_packet.h"
 #include "protocol/com_create_ng_packet.h"
+#include "protocol/com_delete_ng_packet.h"
 #include "protocol/com_list_art_packet.h"
+#include "protocol/com_create_art_packet.h"
+#include "protocol/com_delete_art_packet.h"
+#include "protocol/com_get_art_packet.h"
 #include "protocol/ans_list_ng_packet.h"
 #include "protocol/ans_create_ng_packet.h"
+#include "protocol/ans_delete_ng_packet.h"
 #include "protocol/ans_list_art_packet.h"
+#include "protocol/ans_create_art_packet.h"
+#include "protocol/ans_delete_art_packet.h"
+#include "protocol/ans_get_art_packet.h"
 
 #include <iostream>
 #include <string>
