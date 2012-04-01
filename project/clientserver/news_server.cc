@@ -40,14 +40,17 @@ int main(int argc, char* argv[]){
 				size_t cmd = MessageHandler::read_cmd(conn);
 				switch (cmd) {
 				case Protocol::COM_LIST_NG: {
+					cout << "Requesting COM_LIST_NG." << endl;
 					ComListNgPacket com;
 					com.read(conn);
 					AnsListNgPacket ans;
 					ans.ngs = db.list_ng();
 					ans.write(conn);
+					cout << "Answer sent." << endl;
 					break;
 				}
 				case Protocol::COM_CREATE_NG: {
+					cout << "Requesting COM_CREATE_NG." << endl;
 					ComCreateNgPacket com;
 					com.read(conn);
 					size_t res = db.create_ng(com.name);
@@ -59,12 +62,14 @@ int main(int argc, char* argv[]){
 						ans.err = res;
 					}
 					ans.write(conn);
+					cout << "Answer sent." << endl;
 					break;
 				}
 				case Protocol::COM_DELETE_NG: {
 					//TODO: Implement
 				}
 				case Protocol::COM_LIST_ART: {
+					cout << "Requesting COM_LIST_ART." << endl;
 					ComListArtPacket com;
 					com.read(conn);
 					AnsListArtPacket ans;
@@ -77,6 +82,7 @@ int main(int argc, char* argv[]){
 						ans.err = p.first;
 					}
 					ans.write(conn);
+					cout << "Answer sent." << endl;
 					break;
 				}
 				case Protocol::COM_CREATE_ART: {
