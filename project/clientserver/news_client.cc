@@ -59,7 +59,6 @@ int main(int argc, char* argv[]) {
 					} else {
 						cout << "Error: " << ans.err << endl;
 					}
-
 				} else { 	// LIST_NG
 					cout << "Listing all newsgroups:" << endl;
 					ComListNgPacket com;

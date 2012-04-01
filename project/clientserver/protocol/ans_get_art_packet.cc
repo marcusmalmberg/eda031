@@ -5,7 +5,6 @@ namespace protocol {
 	void AnsGetArtPacket::read(const Connection* conn) {
 		ans = MessageHandler::read_cmd(conn);
 		if (ans == Protocol::ANS_ACK) {
-			Article a;
 			a.title = MessageHandler::read_str(conn);
 			a.author = MessageHandler::read_str(conn);
 			a.text = MessageHandler::read_str(conn);
