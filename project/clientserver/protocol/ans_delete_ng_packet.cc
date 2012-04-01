@@ -1,3 +1,5 @@
+#include "ans_delete_ng_packet.h"
+
 namespace protocol {
 
 	void AnsDeleteNgPacket::read(const Connection* conn) {

@@ -1,3 +1,5 @@
+#include "ans_create_art_packet.h"
+
 namespace protocol {
 
 	void AnsCreateArtPacket::read(const Connection* conn) {

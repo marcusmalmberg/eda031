@@ -1,3 +1,5 @@
+#include "com_delete_ng_packet.h"
+
 namespace protocol {
 
 	void ComDeleteNgPacket::read(const Connection* conn) {
