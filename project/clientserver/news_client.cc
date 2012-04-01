@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
 			if (cmd == "list") {
 				cin >> cmd;
 				if (cmd != "ngs") {    // LIST_ART
-					cout << "Listing articles for ng=" << cmd << ":" << endl;
+					cout << "Listing articles for ng with id:" << cmd << endl;
 					size_t id = atoi(cmd.c_str());
 					ComListArtPacket com;
 					com.id = id;
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 						cout << a.id << ". " << a.title << " From: " << a.author << endl;
 					});
 				} else { 	// LIST_NG
-					cout << "Listing newsgroups:" << endl;
+					cout << "Listing all newsgroups:" << endl;
 					ComListNgPacket com;
 					com.write(&conn);
 					AnsListNgPacket ans;
@@ -79,6 +79,11 @@ int main(int argc, char* argv[]) {
 						AnsCreateNgPacket ans;
 						MessageHandler::read_cmd(&conn);
 						ans.read(&conn);
+						if(ans.ans == Protocol::ANS_ACK) {
+							cout << "Newsgroup created." << endl;
+						} else {
+							cout << "Error: " << ans.err << endl;
+						}
 					} else {		// CREATE_ART
 						size_t ng_id;
 						cin >> ng_id;
@@ -97,6 +102,11 @@ int main(int argc, char* argv[]) {
 						AnsCreateArtPacket ans;
 						MessageHandler::read_cmd(&conn);
 						ans.read(&conn);
+						if(ans.ans == Protocol::ANS_ACK) {
+							cout << "Article created." << endl;
+						} else {
+							cout << "Error: " << ans.err << endl;
+						}
 					}
 				}
 			} else if (cmd == "delete") {
@@ -110,6 +120,11 @@ int main(int argc, char* argv[]) {
 						AnsDeleteNgPacket ans;
 						MessageHandler::read_cmd(&conn);
 						ans.read(&conn);
+						if(ans.ans == Protocol::ANS_ACK) {
+							cout << "Newsgroup deleted." << endl;
+						} else {
+							cout << "Error: " << ans.err << endl;
+						}
 					} else {		// DELETE_ART
 						// TODO: Implement..
 					}
