@@ -145,7 +145,7 @@ int main(int argc, char* argv[]){
 					AnsGetArtPacket ans;
 					pair<size_t, Article> res = db.get_art(com.ng_id, com.art_id);
 					if(res.first == Protocol::ANS_ACK) {
-						ans.ans = res;
+						ans.ans = res.first;
 						ans.a = res.second;
 					} else {
 						ans.ans = Protocol::ANS_NAK;
