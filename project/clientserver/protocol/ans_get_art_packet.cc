@@ -12,6 +12,7 @@ namespace protocol {
 		} else {
 			err = MessageHandler::read_cmd(conn);
 		}
+		MessageHandler::read_cmd(conn);
 	}
 
 	void AnsGetArtPacket::write(const Connection* conn) {

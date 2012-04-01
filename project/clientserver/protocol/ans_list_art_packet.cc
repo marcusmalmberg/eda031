@@ -15,6 +15,7 @@ namespace protocol {
 		} else {
 			err = MessageHandler::read_cmd(conn);
 		}
+		MessageHandler::read_cmd(conn);
 	}
 
 	void AnsListArtPacket::write(const Connection* conn) {
