@@ -22,6 +22,7 @@ namespace protocol {
 		MessageHandler::write_cmd(conn, ans);
 		if (ans == Protocol::ANS_ACK) {
 			size_t size = arts.size();
+			MessageHandler::write_num(conn, size);
 			for (size_t i = 0; i < size; ++i) {
 				Article a = arts[i];
 				MessageHandler::write_num(conn, a.id);
