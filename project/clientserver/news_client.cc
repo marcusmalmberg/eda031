@@ -86,11 +86,14 @@ int main(int argc, char* argv[]) {
 			} else if (cmd == "delete") {
 				if (cin >> cmd) {
 					if (cmd == "ng") {		// DELET_NG
-						// TODO: Implement..
 						size_t id;
 						cin >> id;
 						ComDeleteNgPacket com;
 						com.id = id;
+						com.write(&conn);
+						AnsDeleteNgPacket ans;
+						MessageHandler::read_cmd(&conn);
+						ans.read(&conn);
 					} else {		// DELETE_ART
 						// TODO: Implement..
 					}

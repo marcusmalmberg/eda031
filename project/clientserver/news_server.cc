@@ -74,7 +74,20 @@ int main(int argc, char* argv[]){
 					break;
 				}
 				case Protocol::COM_DELETE_NG: {
-					//TODO: Implement
+					cout << "Requesting COM_DELETE_NG." << endl;
+					ComDeleteNgPacket com;
+					com.read(conn);
+					size_t res = db.delete_ng(com.id);
+					AnsDeleteNgPacket ans;
+					if(res == Protocol::ANS_ACK) {
+						ans.ans = res;
+					} else {
+						ans.ans = Protocol::ANS_NAK;
+						ans.err = res;
+					}
+					ans.write(conn);
+					cout << "Answer sent." << endl;
+					break;
 				}
 				case Protocol::COM_LIST_ART: {
 					cout << "Requesting COM_LIST_ART." << endl;
@@ -95,12 +108,15 @@ int main(int argc, char* argv[]){
 				}
 				case Protocol::COM_CREATE_ART: {
 					//TODO: Implement
+					break;
 				}
 				case Protocol::COM_DELETE_ART: {
 					//TODO: Implement
+					break;
 				}
 				case Protocol::COM_GET_ART: {
 					//TODO: Implement
+					break;
 				}
 				default:
 					break;
