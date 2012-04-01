@@ -8,9 +8,9 @@ namespace protocol {
 	}
 
 	void ComDeleteNgPacket::write(const Connection* conn) {
-		MessageHandler::write_cmd(Protocol::COM_DELETE_NG);
-		MessageHandler::write_num(id);
-		MessageHandler::write_cmd(Protocol::COM_END);
+		MessageHandler::write_cmd(conn, Protocol::COM_DELETE_NG);
+		MessageHandler::write_num(conn, id);
+		MessageHandler::write_cmd(conn, Protocol::COM_END);
 	}
 
 }
