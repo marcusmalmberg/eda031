@@ -16,6 +16,7 @@ namespace news_server {
 		string text;
 		Article(const size_t _id, const string& _title, const string& _author, const string& _text) :
 			id(_id), title(_title), author(_author), text(_text) {};
+		Article() {};
 	};
 
 }

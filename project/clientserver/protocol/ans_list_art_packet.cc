@@ -1,3 +1,5 @@
+#include "ans_list_art_packet.h"
+
 namespace protocol {
 
 	void AnsListArtPacket::read(const Connection* conn) {
@@ -17,7 +19,7 @@ namespace protocol {
 
 	void AnsListArtPacket::write(const Connection* conn) {
 		MessageHandler::write_cmd(conn, Protocol::ANS_LIST_ART);
-		MessageHandler::write_cmd(ans);
+		MessageHandler::write_cmd(conn, ans);
 		if (ans == Protocol::ANS_ACK) {
 			size_t size = arts.size();
 			for (size_t i = 0; i < size; ++i) {
@@ -26,7 +28,7 @@ namespace protocol {
 				MessageHandler::write_str(conn, a.title);
 			}			
 		} else {
-			MessageHandler::write_cmd(err);		
+			MessageHandler::write_cmd(conn, err);		
 		}
 		MessageHandler::write_cmd(conn, Protocol::ANS_END);
 	}

@@ -1,3 +1,5 @@
+#include "com_list_art_packet.h"
+
 namespace protocol {
 
 	void ComListArtPacket::read(const Connection* conn) {

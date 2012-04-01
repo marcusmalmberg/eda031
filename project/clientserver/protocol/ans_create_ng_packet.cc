@@ -1,3 +1,5 @@
+#include "ans_create_ng_packet.h"
+
 namespace protocol {
 
 	void AnsCreateNgPacket::read(const Connection* conn) {

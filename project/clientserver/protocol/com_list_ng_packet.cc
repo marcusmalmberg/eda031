@@ -1,3 +1,5 @@
+#include "com_list_ng_packet.h"
+
 namespace protocol {
 
 	void ComListNgPacket::read(const Connection* conn) {

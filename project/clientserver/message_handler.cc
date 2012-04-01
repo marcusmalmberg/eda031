@@ -1,7 +1,7 @@
 #include <sstream>
 
 #include "message_handler.h"
-#include "protocol.h"
+#include "protocol/protocol.h"
 
 using namespace protocol;
 

@@ -16,13 +16,13 @@ SRC	= $(wildcard *.cc)
 
 all: lib news_server news_client
 
-lib: libclientserver.a
+lib: libclientserver.a libprotocol.a
 
-news_server: news_server.o message_handler.o 
-	$(CXX) -o $@ $^ -L. -lclientserver
+news_server: news_server.o message_handler.o db_memory.o
+	$(CXX) -o $@ $^ -L. -lclientserver -lprotocol
 
 news_client: news_client.o message_handler.o
-	$(CXX) -o $@ $^ -L. -lclientserver
+	$(CXX) -o $@ $^ -L. -lclientserver -lprotocol
 
 # Create the library; ranlib is for Darwin and maybe other systems.
 # Doesn't seem to do any damage on other systems.
@@ -32,11 +32,23 @@ libclientserver.a: connection.o server.o
 	connection.o server.o
 	ranlib libclientserver.a
 
+libprotocol.a: protocol/com_list_ng_packet.o protocol/com_create_ng_packet.o protocol/com_list_art_packet.o protocol/ans_list_ng_packet.o protocol/ans_create_ng_packet.o protocol/ans_list_art_packet.o
+	ar rv libprotocol.a \
+	protocol/com_list_ng_packet.o \
+	protocol/com_create_ng_packet.o \
+	protocol/com_list_art_packet.o \
+	protocol/ans_list_ng_packet.o \
+	protocol/ans_create_ng_packet.o \
+	protocol/ans_list_art_packet.o
+	ranlib libprotocol.a
+
 clean:
 	$(RM) *.o
 
 cleaner: clean
 	$(RM) libclientserver.a
+	$(RM) libprotocol.a
+	$(RM) *.d *.d.*
 
 %.d: %.cc
 	@set -e; rm -f $@; \

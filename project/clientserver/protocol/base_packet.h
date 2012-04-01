@@ -1,9 +1,12 @@
 #ifndef BASE_PACKET_H
 #define BASE_PACKET_H
 
-#include "../protocol.h"
+#include "protocol.h"
+#include "../connection.h"
+#include "../message_handler.h"
 
 using namespace client_server;
+using namespace news_server;
 
 namespace protocol {
 	

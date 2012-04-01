@@ -1,5 +1,7 @@
 #include <string>
 
+#include "ans_list_ng_packet.h"
+
 using namespace std;
 
 namespace protocol {

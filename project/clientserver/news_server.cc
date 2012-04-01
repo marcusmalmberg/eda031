@@ -3,11 +3,13 @@
 #include "connectionclosedexception.h"
 #include "message_handler.h"
 #include "db_memory.h"
-#include "protocol.h"
-#include "packet/com_list_ng_packet.h"
-#include "packet/com_list_art_packet.h"
-#include "packet/ans_list_ng_packet.h"
-#include "packet/ans_list_art_packet.h"
+#include "protocol/protocol.h"
+#include "protocol/com_list_ng_packet.h"
+#include "protocol/com_create_ng_packet.h"
+#include "protocol/com_list_art_packet.h"
+#include "protocol/ans_list_ng_packet.h"
+#include "protocol/ans_create_ng_packet.h"
+#include "protocol/ans_list_art_packet.h"
 
 #include <iostream>
 #include <string>
@@ -36,28 +38,47 @@ int main(int argc, char* argv[]){
 		if (conn != 0) {
 			try {
 				size_t cmd = MessageHandler::read_cmd(conn);
-				BasePacket* com;
-				AnsPacket* ans;
 				switch (cmd) {
-				case Protocol::COM_LIST_NG:
-					com = new ComListNgPacket();
-					com->read(conn);
-					ans = new AnsListNgPacket();
-					(static_cast<AnsListNgPacket*>(ans))->ngs = db.list_ng();
-					ans->write(conn);
+				case Protocol::COM_LIST_NG: {
+					ComListNgPacket com;
+					com.read(conn);
+					AnsListNgPacket ans;
+					ans.ngs = db.list_ng();
+					ans.write(conn);
 					break;
-				case Protocol::COM_LIST_ART:
-					com = new ComListArtPacket();
-					com->read(conn);
-					ans = new AnsListArtPacket();
-					(static_cast<AnsListArtPacket*>(ans))->arts = db.list_art((static_cast<ComListArtPacket*>(com))->id);
-					ans->write(conn);
+				}
+				case Protocol::COM_CREATE_NG: {
+					ComCreateNgPacket com;
+					com.read(conn);
+					size_t res = db.create_ng(com.name);
+					AnsCreateNgPacket ans;
+					if (res == Protocol::ANS_ACK) {
+						ans.ans = res;
+					} else {
+						ans.ans = Protocol::ANS_NAK;
+						ans.err = res;
+					}
+					ans.write(conn);
 					break;
+				}
+				case Protocol::COM_LIST_ART: {
+					ComListArtPacket com;
+					com.read(conn);
+					AnsListArtPacket ans;
+					pair<size_t, vector<Article>> p = db.list_art(com.id);
+					if (p.first == Protocol::ANS_ACK) {
+						ans.ans = p.first;
+						ans.arts = p.second;
+					} else {
+						ans.ans = Protocol::ANS_NAK;
+						ans.err = p.first;
+					}
+					ans.write(conn);
+					break;
+				}
 				default:
 					break;
 				}
-				delete com;
-				delete ans;
 			}
 			catch (ConnectionClosedException&) {
 				server.deregisterConnection(conn);
