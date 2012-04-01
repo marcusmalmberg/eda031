@@ -123,11 +123,36 @@ int main(int argc, char* argv[]){
 					break;
 				}
 				case Protocol::COM_DELETE_ART: {
-					//TODO: Implement
+					cout << "Requesting COM_DELETE_ART." << endl;
+					ComDeleteArtPacket com;
+					com.read(conn);
+					AnsDeleteArtPacket ans;
+					size_t res = db.delete_art(com.ng_id, com.art_id);
+					if(res == Protocol::ANS_ACK) {
+						ans.ans = res;
+					} else {
+						ans.ans = Protocol::ANS_NAK;
+						ans.err = res;
+					}
+					ans.write(conn);
+					cout << "Answer sent." << endl;
 					break;
 				}
 				case Protocol::COM_GET_ART: {
-					//TODO: Implement
+					cout << "Requesting COM_GET_ART." << endl;
+					ComGetArtPacket com;
+					com.read(conn);
+					AnsGetArtPacket ans;
+					pair<size_t, Article> res = db.get_art(com.ng_id, com.art_id);
+					if(res.first == Protocol::ANS_ACK) {
+						ans.ans = res;
+						ans.a = res.second;
+					} else {
+						ans.ans = Protocol::ANS_NAK;
+						ans.err = res.first;
+					}
+					ans.write(conn);
+					cout << "Answer sent." << endl;
 					break;
 				}
 				default:
