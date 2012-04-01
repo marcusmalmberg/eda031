@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 		try {
 			if (cmd == "list") {
 				cin >> cmd;
-				if (cmd != "ngs") {
+				if (cmd != "ngs") {    // LIST_ART
 					cout << "Listing articles for ng=" << cmd << ":" << endl;
 					size_t id = atoi(cmd.c_str());
 					ComListArtPacket com;
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 					for_each(ans.arts.begin(), ans.arts.end(), [] (Article a) {
 						cout << a.id << ". " << a.title << " From: " << a.author << endl;
 					});
-				} else { 
+				} else { 	// LIST_NG
 					cout << "Listing newsgroups:" << endl;
 					ComListNgPacket com;
 					com.write(&conn);
@@ -58,11 +58,11 @@ int main(int argc, char* argv[]) {
 						cout << ng.id << ". " << ng.name << endl;
 					});
 				}
-			} else if (cmd == "read") {
-
+			} else if (cmd == "read") {		// GET_ART
+				// TODO: Implement
 			} else if (cmd == "create") {
 				if (cin >> cmd) {
-					if (cmd == "ng") {
+					if (cmd == "ng") {		// CREATE_NG
 						string name;
 						cin >> name;
 						ComCreateNgPacket com;
@@ -71,6 +71,16 @@ int main(int argc, char* argv[]) {
 						AnsCreateNgPacket ans;
 						MessageHandler::read_cmd(&conn);
 						ans.read(&conn);
+					} else {		// CREATE_ART
+						// TODO: Implement..
+					}
+				}
+			} else if (cmd == "delete") {
+				if (cin >> cmd) {
+					if (cmd == "ng") {		// DELET_NG
+						// TODO: Implement..
+					} else {		// DELETE_ART
+						// TODO: Implement..
 					}
 				}
 			} else if (cmd == "quit") {
