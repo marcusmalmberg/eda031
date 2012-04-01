@@ -61,6 +61,9 @@ int main(int argc, char* argv[]){
 					ans.write(conn);
 					break;
 				}
+				case Protocol::COM_DELETE_NG: {
+					//TODO: Implement
+				}
 				case Protocol::COM_LIST_ART: {
 					ComListArtPacket com;
 					com.read(conn);
@@ -75,6 +78,15 @@ int main(int argc, char* argv[]){
 					}
 					ans.write(conn);
 					break;
+				}
+				case Protocol::COM_CREATE_ART: {
+					//TODO: Implement
+				}
+				case Protocol::COM_DELETE_ART: {
+					//TODO: Implement
+				}
+				case Protocol::COM_GET_ART: {
+					//TODO: Implement
 				}
 				default:
 					break;
