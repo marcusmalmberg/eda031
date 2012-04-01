@@ -107,7 +107,19 @@ int main(int argc, char* argv[]){
 					break;
 				}
 				case Protocol::COM_CREATE_ART: {
-					//TODO: Implement
+					cout << "Requesting COM_CREATE_ART." << endl;
+					ComCreateArtPacket com;
+					com.read(conn);
+					AnsCreateArtPacket ans;
+					size_t res = db.create_art(com.ng_id, com.title, com.author, com.text);
+					if(res == Protocol::ANS_ACK) {
+						ans.ans = res;
+					} else {
+						ans.ans = Protocol::ANS_NAK;
+						ans.err = res;
+					}
+					ans.write(conn);
+					cout << "Answer sent." << endl;
 					break;
 				}
 				case Protocol::COM_DELETE_ART: {

@@ -80,7 +80,23 @@ int main(int argc, char* argv[]) {
 						MessageHandler::read_cmd(&conn);
 						ans.read(&conn);
 					} else {		// CREATE_ART
-						// TODO: Implement..
+						size_t ng_id;
+						cin >> ng_id;
+						string title;
+						cin >> title;
+						string author;
+						cin >> author;
+						string text;
+						cin >> text;
+						ComCreateArtPacket com;
+						com.ng_id = ng_id;
+						com.title = title;
+						com.author = author;
+						com.text = text;
+						com.write(&conn);
+						AnsCreateArtPacket ans;
+						MessageHandler::read_cmd(&conn);
+						ans.read(&conn);
 					}
 				}
 			} else if (cmd == "delete") {
