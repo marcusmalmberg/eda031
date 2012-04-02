@@ -35,8 +35,9 @@ libclientserver.a: connection.o server.o
 	connection.o server.o
 	ranlib libclientserver.a
 
-libprotocol.a: protocol/com_list_ng_packet.o protocol/com_create_ng_packet.o protocol/com_delete_ng_packet.o protocol/com_list_art_packet.o protocol/com_create_art_packet.o protocol/com_delete_art_packet.o protocol/com_get_art_packet.o protocol/ans_list_ng_packet.o protocol/ans_create_ng_packet.o protocol/ans_delete_ng_packet.o protocol/ans_list_art_packet.o protocol/ans_create_art_packet.o protocol/ans_delete_art_packet.o protocol/ans_get_art_packet.o
+libprotocol.a: protocol/protocol.o protocol/com_list_ng_packet.o protocol/com_create_ng_packet.o protocol/com_delete_ng_packet.o protocol/com_list_art_packet.o protocol/com_create_art_packet.o protocol/com_delete_art_packet.o protocol/com_get_art_packet.o protocol/ans_list_ng_packet.o protocol/ans_create_ng_packet.o protocol/ans_delete_ng_packet.o protocol/ans_list_art_packet.o protocol/ans_create_art_packet.o protocol/ans_delete_art_packet.o protocol/ans_get_art_packet.o
 	ar rv libprotocol.a \
+	protocol/protocol.o \
 	protocol/com_list_ng_packet.o \
 	protocol/com_create_ng_packet.o \
 	protocol/com_delete_ng_packet.o \

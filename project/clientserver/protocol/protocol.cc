@@ -1,4 +1,8 @@
+#include <string>
+
 #include "protocol.h"
+
+using namespace std;
 
 namespace protocol {
 	string Protocol::getTextualError(const size_t errorCode) {

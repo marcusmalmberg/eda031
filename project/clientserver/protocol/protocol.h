@@ -7,6 +7,10 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
+#include <string>
+
+using namespace std;
+
 namespace protocol {
   struct Protocol {
     enum {
