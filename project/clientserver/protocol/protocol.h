@@ -7,6 +7,10 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
+#include <string>
+
+using namespace std;
+
 namespace protocol {
   struct Protocol {
     enum {
@@ -41,6 +45,9 @@ namespace protocol {
       ERR_NG_DOES_NOT_EXIST  = 51,  // newsgroup does not exist
       ERR_ART_DOES_NOT_EXIST = 52   // article does not exist
     };
+
+    static string getTextualError(const size_t errorCode);
+
   };
 }
 

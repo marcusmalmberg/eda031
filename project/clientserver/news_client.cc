@@ -38,14 +38,20 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
+	cout << "Welcome! If this is your first time you can see a list of available commands by running the command \"help\"." << endl;
+
 	string cmd;
 	while (cin >> cmd) {
 		try {
 			if (cmd == "list") {
 				cin >> cmd;
 				if (cmd != "ngs") {    // LIST_ART
-					cout << "Listing articles for ng with id: " << cmd << endl;
 					size_t id = atoi(cmd.c_str());
+					if ( !id && cmd != "0" ) {
+						cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+						continue;
+					}
+					cout << "Listing articles for ng with id: " << cmd << endl;
 					ComListArtPacket com;
 					com.id = id;
 					com.write(&conn);
@@ -57,7 +63,7 @@ int main(int argc, char* argv[]) {
 							cout << a.id << ". " << a.title << endl;
 						});
 					} else {
-						cout << "Error: " << ans.err << endl;
+						cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 					}
 				} else { 	// LIST_NG
 					cout << "Listing all newsgroups:" << endl;
@@ -72,9 +78,19 @@ int main(int argc, char* argv[]) {
 				}
 			} else if (cmd == "read") {		// GET_ART
 				size_t ng_id;
-				cin >> ng_id;
+				if(!(cin >> ng_id)) {
+					cout << "Expected first argument to be integer. Type \"help\" if you need to see the commands" << endl;
+					cin.clear();
+					cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+					continue;
+				}
 				size_t art_id;
-				cin >> art_id;
+				if(!(cin >> art_id)) {
+					cout << "Expected second argument to be integer. Type \"help\" if you need to see the commands" << endl;
+					cin.clear();
+					cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+					continue;
+				}
 				ComGetArtPacket com;
 				com.ng_id = ng_id;
 				com.art_id = art_id;
@@ -86,7 +102,7 @@ int main(int argc, char* argv[]) {
 					cout << ans.a.title << "\t" << ans.a.author << endl;
 					cout << ans.a.text << endl;
 				} else {
-					cout << "Error: " << ans.err << endl;
+					cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 				}
 			} else if (cmd == "create") {
 				if (cin >> cmd) {
@@ -102,11 +118,16 @@ int main(int argc, char* argv[]) {
 						if(ans.ans == Protocol::ANS_ACK) {
 							cout << "Newsgroup created." << endl;
 						} else {
-							cout << "Error: " << ans.err << endl;
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
-					} else {		// CREATE_ART
+					} else if (cmd == "art") {		// CREATE_ART
 						size_t ng_id;
-						cin >> ng_id;
+						if(!(cin >> ng_id)) {
+							cout << "Expected second argument to be integer. Type \"help\" if you need to see the commands" << endl;
+							cin.clear();
+							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+							continue;
+						}
 						string title;
 						cin >> title;
 						string author;
@@ -125,15 +146,23 @@ int main(int argc, char* argv[]) {
 						if(ans.ans == Protocol::ANS_ACK) {
 							cout << "Article created." << endl;
 						} else {
-							cout << "Error: " << ans.err << endl;
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
+					} else {
+						cout << "Expected \"create\" to be followed by either \"ng\" or \"art\". Type \"help\" if you need to see the commands" << endl;
+						continue;
 					}
 				}
 			} else if (cmd == "delete") {
 				if (cin >> cmd) {
 					if (cmd == "ng") {		// DELET_NG
 						size_t id;
-						cin >> id;
+						if(!(cin >> id)) {
+							cout << "Expected argument to be integer. Type \"help\" if you need to see the commands" << endl;
+							cin.clear();
+							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+							continue;
+						}
 						ComDeleteNgPacket com;
 						com.id = id;
 						com.write(&conn);
@@ -143,13 +172,23 @@ int main(int argc, char* argv[]) {
 						if(ans.ans == Protocol::ANS_ACK) {
 							cout << "Newsgroup deleted." << endl;
 						} else {
-							cout << "Error: " << ans.err << endl;
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
-					} else {		// DELETE_ART
+					} else if (cmd == "art") {		// DELETE_ART
 						size_t ng_id;
-						cin >> ng_id;
+						if(!(cin >> ng_id)) {
+							cout << "Expected first argument to be integer. Type \"help\" if you need to see the commands" << endl;
+							cin.clear();
+							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+							continue;
+						}
 						size_t art_id;
-						cin >> art_id;
+						if(!(cin >> art_id)) {
+							cout << "Expected second argument to be integer. Type \"help\" if you need to see the commands" << endl;
+							cin.clear();
+							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+							continue;
+						}
 						ComDeleteArtPacket com;
 						com.ng_id = ng_id;
 						com.art_id = art_id;
@@ -160,12 +199,25 @@ int main(int argc, char* argv[]) {
 						if(ans.ans == Protocol::ANS_ACK) {
 							cout << "Article deleted." << endl;
 						} else {
-							cout << "Error: " << ans.err << endl;
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
+					} else {
+						cout << "Expected \"delete\" to be followed by either \"ng\" or \"art\". Type \"help\" if you need to see the commands" << endl;
+						continue;
 					}
 				}
 			} else if (cmd == "quit") {
 				break;
+			} else if (cmd == "help") {
+				cout << "list ngs" << "\n\t" << "Lists all newsgroups." << "\n" <<endl;
+				cout << "create ng <newsgroup name>" << "\n\t" << "Creates a newsgroup with the specified name." << "\n" <<endl;
+				cout << "delete ng <newsgroup id>" << "\n\t" << "Deletes the newsgroup with the specified id." << "\n" <<endl;
+				cout << "list <newsgroup id>" << "\n\t" << "Lists all articles in the newsgroup with the specified id." << "\n" <<endl;
+				cout << "create art <newsgroup id> <article title> <article author> <article text>" << "\n\t" << "Creates an article in the specified newsgroup with title, author and text." << "\n" <<endl;
+				cout << "delete art <newsgroup id> <article id>" << "\n\t" << "Deletes an article in the specified newsgroup with the specified id." << "\n" <<endl;
+				cout << "read <newsgroup id> <article id>" << "\n\t" << "Reads an article in the specified newsgroup with the specified id." << "\n" <<endl;
+				cout << "quit" << "\n\t" << "Exits the program." << "\n" <<endl;
+				cout << "help" << "\n\t" << "Shows this list of commands." << "\n" <<endl;
 			}
 		} catch (ConnectionClosedException&) {
 			cerr << "Server closed down!" << endl;
