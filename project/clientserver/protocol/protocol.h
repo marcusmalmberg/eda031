@@ -42,7 +42,7 @@ namespace protocol {
       ERR_ART_DOES_NOT_EXIST = 52   // article does not exist
     };
 
-    static string getTextualError(const size_t errorCode) const;
+    static string getTextualError(const size_t errorCode);
 
   };
 }
