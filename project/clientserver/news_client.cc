@@ -46,8 +46,11 @@ int main(int argc, char* argv[]) {
 			if (cmd == "list") {
 				cin >> cmd;
 				if (cmd != "ngs") {    // LIST_ART
-					cout << "Listing articles for ng with id: " << cmd << endl;
 					size_t id = atoi(cmd.c_str());
+					if ( !id && cmd != "0" ) {
+						cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+					}
+					cout << "Listing articles for ng with id: " << cmd << endl;
 					ComListArtPacket com;
 					com.id = id;
 					com.write(&conn);
@@ -59,7 +62,7 @@ int main(int argc, char* argv[]) {
 							cout << a.id << ". " << a.title << endl;
 						});
 					} else {
-						cout << "Error: " << ans.err << endl;
+						cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 					}
 				} else { 	// LIST_NG
 					cout << "Listing all newsgroups:" << endl;
@@ -88,7 +91,7 @@ int main(int argc, char* argv[]) {
 					cout << ans.a.title << "\t" << ans.a.author << endl;
 					cout << ans.a.text << endl;
 				} else {
-					cout << "Error: " << ans.err << endl;
+					cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 				}
 			} else if (cmd == "create") {
 				if (cin >> cmd) {
@@ -104,7 +107,7 @@ int main(int argc, char* argv[]) {
 						if(ans.ans == Protocol::ANS_ACK) {
 							cout << "Newsgroup created." << endl;
 						} else {
-							cout << "Error: " << ans.err << endl;
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
 					} else {		// CREATE_ART
 						size_t ng_id;
@@ -127,7 +130,7 @@ int main(int argc, char* argv[]) {
 						if(ans.ans == Protocol::ANS_ACK) {
 							cout << "Article created." << endl;
 						} else {
-							cout << "Error: " << ans.err << endl;
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
 					}
 				}
@@ -145,7 +148,7 @@ int main(int argc, char* argv[]) {
 						if(ans.ans == Protocol::ANS_ACK) {
 							cout << "Newsgroup deleted." << endl;
 						} else {
-							cout << "Error: " << ans.err << endl;
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
 					} else {		// DELETE_ART
 						size_t ng_id;
@@ -162,7 +165,7 @@ int main(int argc, char* argv[]) {
 						if(ans.ans == Protocol::ANS_ACK) {
 							cout << "Article deleted." << endl;
 						} else {
-							cout << "Error: " << ans.err << endl;
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
 					}
 				}
