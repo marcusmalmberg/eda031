@@ -4,7 +4,7 @@
 #
 
 CXX			 = g++
-CXXFLAGS	 = -ggdb  -Wall -W -Werror -pedantic-errors
+CXXFLAGS	 = -ggdb  -Wall -W #-Werror -pedantic-errors
 CXXFLAGS	+= -Wmissing-braces -Wparentheses -std=c++0x
 # The following option cannot be used since some of the socket
 # macros give warnings on "old-style-cast"
@@ -14,11 +14,14 @@ SRC	= $(wildcard *.cc)
 
 .PHONY: all lib clean cleaner
 
-all: lib news_server news_client
+all: lib news_server_memory news_server_file news_client
 
 lib: libclientserver.a libprotocol.a
 
-news_server: news_server.o message_handler.o db_memory.o
+news_server_memory: news_server_memory.o message_handler.o db_memory.o
+	$(CXX) -o $@ $^ -L. -lclientserver -lprotocol
+
+news_server_file: news_server_file.o message_handler.o db_file.o
 	$(CXX) -o $@ $^ -L. -lclientserver -lprotocol
 
 news_client: news_client.o message_handler.o
