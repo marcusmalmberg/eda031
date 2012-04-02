@@ -120,10 +120,10 @@ int main(int argc, char* argv[]) {
 						} else {
 							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
-					} else {		// CREATE_ART
+					} else if (cmd == "art") {		// CREATE_ART
 						size_t ng_id;
 						if(!(cin >> ng_id)) {
-							cout << "Expected first argument to be integer. Type \"help\" if you need to see the commands" << endl;
+							cout << "Expected second argument to be integer. Type \"help\" if you need to see the commands" << endl;
 							cin.clear();
 							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
 							continue;
@@ -148,6 +148,9 @@ int main(int argc, char* argv[]) {
 						} else {
 							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
+					} else {
+						cout << "Expected \"create\" to be followed by either \"ng\" or \"art\". Type \"help\" if you need to see the commands" << endl;
+						continue;
 					}
 				}
 			} else if (cmd == "delete") {
@@ -171,7 +174,7 @@ int main(int argc, char* argv[]) {
 						} else {
 							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
-					} else {		// DELETE_ART
+					} else if (cmd == "art") {		// DELETE_ART
 						size_t ng_id;
 						if(!(cin >> ng_id)) {
 							cout << "Expected first argument to be integer. Type \"help\" if you need to see the commands" << endl;
@@ -198,6 +201,9 @@ int main(int argc, char* argv[]) {
 						} else {
 							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 						}
+					} else {
+						cout << "Expected \"delete\" to be followed by either \"ng\" or \"art\". Type \"help\" if you need to see the commands" << endl;
+						continue;
 					}
 				}
 			} else if (cmd == "quit") {
