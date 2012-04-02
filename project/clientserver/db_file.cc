@@ -1,5 +1,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <errno.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -17,14 +18,19 @@ namespace news_server {
 		vector<Newsgroup> ngs;
 		ifstream in("list");
 		string line;
-		while (in) {
-			getline(in, line);
+		while (getline(in, line)) {
+			cout << line << endl;
 			istringstream iss(line);
 			string sub;
 			iss >> sub;
 			size_t id = atoi(sub.c_str());
-			iss >> noskipws >> sub;
-			Newsgroup ng(id, sub);
+			string name;
+			iss >> name;
+			while (iss >> sub) {
+				name += " ";
+				name += sub;
+			}
+			Newsgroup ng(id, name);
 			ngs.push_back(ng);
 		}
 		in.close();
@@ -65,6 +71,7 @@ namespace news_server {
 		size_t ng_curr_id = 0;
 		auto itr = find_if(ngs.begin(), ngs.end(), [&] (Newsgroup ng)-> bool  {
 				ng_curr_id = ng.id;
+				cout << ng.id << endl;
 				return ng.name == name;
 		});
 		if (itr != ngs.end()) {
@@ -77,8 +84,7 @@ namespace news_server {
 		ostringstream oss;
 		oss << ng_next_id;
 		string dir = oss.str();
-		mode_t mode = 0777;
-		mkdir(dir.c_str(), mode);
+		mkdir(dir.c_str(), 0777);
 		return Protocol::ANS_ACK;
 	}
 
