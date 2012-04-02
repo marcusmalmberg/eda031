@@ -4,7 +4,7 @@
 #
 
 CXX			 = g++
-CXXFLAGS	 = -ggdb  -Wall -W #-Werror -pedantic-errors
+CXXFLAGS	 = -ggdb  -Wall -W -Werror -pedantic-errors
 CXXFLAGS	+= -Wmissing-braces -Wparentheses -std=c++0x
 # The following option cannot be used since some of the socket
 # macros give warnings on "old-style-cast"
@@ -19,13 +19,13 @@ all: lib news_server_memory news_server_file news_client
 lib: libclientserver.a libprotocol.a
 
 news_server_memory: news_server_memory.o message_handler.o db_memory.o
-	$(CXX) -o $@ $^ -L. -lclientserver -lprotocol
+	$(CXX) -o ../bin/$@ $^ -L. -lclientserver -lprotocol
 
 news_server_file: news_server_file.o message_handler.o db_file.o
-	$(CXX) -o $@ $^ -L. -lclientserver -lprotocol
+	$(CXX) -o ../bin/$@ $^ -L. -lclientserver -lprotocol
 
 news_client: news_client.o message_handler.o
-	$(CXX) -o $@ $^ -L. -lclientserver -lprotocol
+	$(CXX) -o ../bin/$@ $^ -L. -lclientserver -lprotocol
 
 # Create the library; ranlib is for Darwin and maybe other systems.
 # Doesn't seem to do any damage on other systems.
