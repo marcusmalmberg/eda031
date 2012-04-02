@@ -11,7 +11,7 @@ namespace protocol {
 
 	class ComCreateArtPacket : public BasePacket {
 	public:
-        void read(const Connection* conn);
+        bool read(const Connection* conn);
         void write(const Connection* conn);
 		size_t ng_id;
         string title;

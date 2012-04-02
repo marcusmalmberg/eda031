@@ -2,8 +2,11 @@
 
 namespace protocol {
 
-	void ComListNgPacket::read(const Connection* conn) {
-		MessageHandler::read_cmd(conn);
+	bool ComListNgPacket::read(const Connection* conn) {
+		if (MessageHandler::read_cmd(conn) != Protocol::COM_END) {
+			return false;
+		}
+		return true;
 	}
 
 	void ComListNgPacket::write(const Connection* conn) {

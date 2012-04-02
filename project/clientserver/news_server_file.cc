@@ -49,7 +49,9 @@ int main(int argc, char* argv[]){
 				switch (cmd) {
 				case Protocol::COM_LIST_NG: {
 					ComListNgPacket com;
-					com.read(conn);
+					if (!com.read(conn)) {
+						throw ConnectionClosedException();
+					}
 					AnsListNgPacket ans;
 					ans.ngs = db.list_ng();
 					ans.write(conn);
@@ -57,7 +59,9 @@ int main(int argc, char* argv[]){
 				}
 				case Protocol::COM_CREATE_NG: {
 					ComCreateNgPacket com;
-					com.read(conn);
+					if (!com.read(conn)) {
+						throw ConnectionClosedException();
+					}
 					size_t res = db.create_ng(com.name);
 					AnsCreateNgPacket ans;
 					if (res == Protocol::ANS_ACK) {
@@ -71,7 +75,9 @@ int main(int argc, char* argv[]){
 				}
 				case Protocol::COM_DELETE_NG: {
 					ComDeleteNgPacket com;
-					com.read(conn);
+					if (!com.read(conn)) {
+						throw ConnectionClosedException();
+					}
 					size_t res = db.delete_ng(com.id);
 					AnsDeleteNgPacket ans;
 					if(res == Protocol::ANS_ACK) {
@@ -85,7 +91,9 @@ int main(int argc, char* argv[]){
 				}
 				case Protocol::COM_LIST_ART: {
 					ComListArtPacket com;
-					com.read(conn);
+					if (!com.read(conn)) {
+						throw ConnectionClosedException();
+					}
 					AnsListArtPacket ans;
 					pair<size_t, vector<Article>> p = db.list_art(com.id);
 					if (p.first == Protocol::ANS_ACK) {
@@ -100,7 +108,9 @@ int main(int argc, char* argv[]){
 				}
 				case Protocol::COM_CREATE_ART: {
 					ComCreateArtPacket com;
-					com.read(conn);
+					if (!com.read(conn)) {
+						throw ConnectionClosedException();
+					}
 					AnsCreateArtPacket ans;
 					size_t res = db.create_art(com.ng_id, com.title, com.author, com.text);
 					if(res == Protocol::ANS_ACK) {
@@ -114,7 +124,9 @@ int main(int argc, char* argv[]){
 				}
 				case Protocol::COM_DELETE_ART: {
 					ComDeleteArtPacket com;
-					com.read(conn);
+					if (!com.read(conn)) {
+						throw ConnectionClosedException();
+					}
 					AnsDeleteArtPacket ans;
 					size_t res = db.delete_art(com.ng_id, com.art_id);
 					if(res == Protocol::ANS_ACK) {
@@ -128,7 +140,9 @@ int main(int argc, char* argv[]){
 				}
 				case Protocol::COM_GET_ART: {
 					ComGetArtPacket com;
-					com.read(conn);
+					if (!com.read(conn)) {
+						throw ConnectionClosedException();
+					}
 					AnsGetArtPacket ans;
 					pair<size_t, Article> res = db.get_art(com.ng_id, com.art_id);
 					if(res.first == Protocol::ANS_ACK) {

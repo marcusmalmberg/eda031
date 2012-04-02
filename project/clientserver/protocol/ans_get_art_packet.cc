@@ -2,7 +2,7 @@
 
 namespace protocol {
 
-	void AnsGetArtPacket::read(const Connection* conn) {
+	bool AnsGetArtPacket::read(const Connection* conn) {
 		ans = MessageHandler::read_cmd(conn);
 		if (ans == Protocol::ANS_ACK) {
 			a.title = MessageHandler::read_str(conn);
@@ -11,7 +11,10 @@ namespace protocol {
 		} else {
 			err = MessageHandler::read_cmd(conn);
 		}
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::ANS_END) {
+	        return false;
+        }
+        return true;
 	}
 
 	void AnsGetArtPacket::write(const Connection* conn) {

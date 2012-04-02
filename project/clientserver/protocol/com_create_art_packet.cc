@@ -2,12 +2,15 @@
 
 namespace protocol {
 
-	void ComCreateArtPacket::read(const Connection* conn) {
+	bool ComCreateArtPacket::read(const Connection* conn) {
 		ng_id = MessageHandler::read_num(conn);
 		title = MessageHandler::read_str(conn);
 		author = MessageHandler::read_str(conn);
 		text = MessageHandler::read_str(conn);
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::COM_END) {
+			return false;
+		}
+		return true;
 	}
 
 	void ComCreateArtPacket::write(const Connection* conn) {

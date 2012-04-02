@@ -2,10 +2,13 @@
 
 namespace protocol {
 
-	void ComGetArtPacket::read(const Connection* conn) {
+	bool ComGetArtPacket::read(const Connection* conn) {
 		ng_id = MessageHandler::read_num(conn);
 		art_id = MessageHandler::read_num(conn);
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::COM_END) {
+			return false;
+		}
+		return true;
 	}
 
 	void ComGetArtPacket::write(const Connection* conn) {

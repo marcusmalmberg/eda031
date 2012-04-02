@@ -2,7 +2,7 @@
 
 namespace protocol {
 
-	void AnsListArtPacket::read(const Connection* conn) {
+	bool AnsListArtPacket::read(const Connection* conn) {
 		ans = MessageHandler::read_cmd(conn);
 		if (ans == Protocol::ANS_ACK) {
 			size_t size = MessageHandler::read_num(conn);
@@ -15,7 +15,10 @@ namespace protocol {
 		} else {
 			err = MessageHandler::read_cmd(conn);
 		}
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::ANS_END) {
+	        return false;
+        }
+        return true;
 	}
 
 	void AnsListArtPacket::write(const Connection* conn) {

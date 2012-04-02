@@ -6,7 +6,7 @@ using namespace std;
 
 namespace protocol {
 
-	void AnsListNgPacket::read(const Connection* conn) {
+	bool AnsListNgPacket::read(const Connection* conn) {
 		size_t n = MessageHandler::read_num(conn);
 		for (size_t i = 0; i < n; ++i) {
 			size_t id = MessageHandler::read_num(conn);
@@ -14,7 +14,10 @@ namespace protocol {
 			Newsgroup ng(id, name);
 			ngs.push_back(ng);
 		}
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::ANS_END) {
+			return false;
+		}
+		return true;
 	}
 
 	void AnsListNgPacket::write(const Connection* conn) {

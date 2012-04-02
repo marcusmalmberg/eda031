@@ -2,9 +2,12 @@
 
 namespace protocol {
 
-	void ComListArtPacket::read(const Connection* conn) {
+	bool ComListArtPacket::read(const Connection* conn) {
 		id = MessageHandler::read_num(conn);
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::COM_END) {
+			return false;
+		}
+		return true;
 	}
 
 	void ComListArtPacket::write(const Connection* conn) {

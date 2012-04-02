@@ -2,12 +2,15 @@
 
 namespace protocol {
 
-	void AnsCreateNgPacket::read(const Connection* conn) {
+	bool AnsCreateNgPacket::read(const Connection* conn) {
 		ans = MessageHandler::read_cmd(conn);
 		if (ans == Protocol::ANS_NAK) {
 			err = MessageHandler::read_cmd(conn);
 		}
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::ANS_END) {
+			return false;
+		}
+		return true;
 	}
 
 	void AnsCreateNgPacket::write(const Connection* conn) {

@@ -2,9 +2,12 @@
 
 namespace protocol {
 
-	void ComDeleteNgPacket::read(const Connection* conn) {
+	bool ComDeleteNgPacket::read(const Connection* conn) {
 		id = MessageHandler::read_num(conn);
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::COM_END) {
+			return false;
+		}
+		return true;
 	}
 
 	void ComDeleteNgPacket::write(const Connection* conn) {

@@ -2,9 +2,12 @@
 
 namespace protocol {
 
-	void ComCreateNgPacket::read(const Connection* conn) {
+	bool ComCreateNgPacket::read(const Connection* conn) {
 		name = MessageHandler::read_str(conn);
-		MessageHandler::read_cmd(conn);
+		if (MessageHandler::read_cmd(conn) != Protocol::COM_END) {
+			return false;
+		}
+		return true;
 	}
 
 	void ComCreateNgPacket::write(const Connection* conn) {

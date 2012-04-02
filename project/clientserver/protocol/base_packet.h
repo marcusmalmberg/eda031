@@ -12,7 +12,7 @@ namespace protocol {
 	
 	class BasePacket {
 	public:
-		virtual void read(const Connection* conn) = 0;
+		virtual bool read(const Connection* conn) = 0;
 		virtual void write(const Connection* conn) = 0;
 	};
 
