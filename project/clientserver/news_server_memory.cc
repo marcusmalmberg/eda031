@@ -142,6 +142,7 @@ int main(int argc, char* argv[]){
 					break;
 				}
 				default:
+					throw ConnectionClosedException();
 					break;
 				}
 			}
