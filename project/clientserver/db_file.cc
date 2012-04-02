@@ -151,6 +151,7 @@ namespace news_server {
 	    getline(in, title);
 	    getline(in, author);
 	    getline(in, text);
+		in.close();
 		Article a(art_id, title, author, text);
 		return make_pair(Protocol::ANS_ACK, a);
 	}
@@ -184,17 +185,30 @@ namespace news_server {
 	}
 
 	size_t DBFile::delete_art(const size_t ng_id, const size_t art_id) {
-//		auto itr_ng = arts.find(ng_id);
-//		if (itr_ng == arts.end()) {
+		pair<size_t, vector<Article>> p = list_art(ng_id);
+		if (p.first != Protocol::ANS_ACK) {
 			return Protocol::ERR_NG_DOES_NOT_EXIST;
-//		}
-//		vector<Article>& as = itr_ng->second;
-//		auto itr_art = find_if(as.begin(), as.end(), [&] (Article a) {return a.id == art_id;});
-//		if (itr_art == as.end()) {
-//			return Protocol::ERR_ART_DOES_NOT_EXIST;
-//		}
-//		as.erase(itr_art);
-//		return Protocol::ANS_ACK;
+		}
+		vector<Article> arts = p.second;
+		auto itr = find_if(arts.begin(), arts.end(), [&] (Article a) {return a.id == art_id;});
+		if (itr == arts.end()) {
+			return Protocol::ERR_ART_DOES_NOT_EXIST;
+		}
+		arts.erase(itr);
+		ostringstream oss;
+		oss << root << "/" << ng_id << "/";
+		string dir = oss.str();
+		string list = dir;
+		list += "list";
+		ofstream out(list.c_str());
+		for_each(arts.begin(), arts.end(), [&] (Article a) {
+			out << a.id << " " << a.title << endl;
+		});
+		out.close();
+		oss << art_id;
+		string file = oss.str();
+		remove(file.c_str());
+		return Protocol::ANS_ACK;
 	}
 
 }
