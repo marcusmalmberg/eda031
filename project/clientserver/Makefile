@@ -57,7 +57,10 @@ libprotocol.a: protocol/protocol.o protocol/com_list_ng_packet.o protocol/com_cr
 clean:
 	$(RM) *.o
 
-cleaner: clean
+reset_db: 
+	$(RM) -r db
+
+cleaner: clean reset_db
 	$(RM) libclientserver.a
 	$(RM) libprotocol.a
 	$(RM) *.d *.d.*
