@@ -49,20 +49,21 @@ int main(int argc, char* argv[]) {
 					size_t id = atoi(cmd.c_str());
 					if ( !id && cmd != "0" ) {
 						cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
-					}
-					cout << "Listing articles for ng with id: " << cmd << endl;
-					ComListArtPacket com;
-					com.id = id;
-					com.write(&conn);
-					AnsListArtPacket ans;
-					MessageHandler::read_cmd(&conn);
-					ans.read(&conn);
-					if(ans.ans == Protocol::ANS_ACK) {
-						for_each(ans.arts.begin(), ans.arts.end(), [] (Article a) {
-							cout << a.id << ". " << a.title << endl;
-						});
 					} else {
-						cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
+						cout << "Listing articles for ng with id: " << cmd << endl;
+						ComListArtPacket com;
+						com.id = id;
+						com.write(&conn);
+						AnsListArtPacket ans;
+						MessageHandler::read_cmd(&conn);
+						ans.read(&conn);
+						if(ans.ans == Protocol::ANS_ACK) {
+							for_each(ans.arts.begin(), ans.arts.end(), [] (Article a) {
+								cout << a.id << ". " << a.title << endl;
+							});
+						} else {
+							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
+						}
 					}
 				} else { 	// LIST_NG
 					cout << "Listing all newsgroups:" << endl;
