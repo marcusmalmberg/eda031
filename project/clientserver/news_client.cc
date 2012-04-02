@@ -38,6 +38,8 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
+	cout << "Welcome! If this is your first time you can see a list of available commands by running the command \"help\"." << endl;
+
 	string cmd;
 	while (cin >> cmd) {
 		try {
@@ -166,6 +168,16 @@ int main(int argc, char* argv[]) {
 				}
 			} else if (cmd == "quit") {
 				break;
+			} else if (cmd == "help") {
+				cout << "list ngs" << "\n\t" << "Lists all newsgroups." << "\n" <<endl;
+				cout << "create ng <newsgroup name>" << "\n\t" << "Creates a newsgroup with the specified name." << "\n" <<endl;
+				cout << "delete ng <newsgroup id>" << "\n\t" << "Deletes the newsgroup with the specified id." << "\n" <<endl;
+				cout << "list <newsgroup id>" << "\n\t" << "Lists all articles in the newsgroup with the specified id." << "\n" <<endl;
+				cout << "create art <newsgroup id> <article title> <article author> <article text>" << "\n\t" << "Creates an article in the specified newsgroup with title, author and text." << "\n" <<endl;
+				cout << "delete art <newsgroup id> <article id>" << "\n\t" << "Deletes an article in the specified newsgroup with the specified id." << "\n" <<endl;
+				cout << "read <newsgroup id> <article id>" << "\n\t" << "Reads an article in the specified newsgroup with the specified id." << "\n" <<endl;
+				cout << "quit" << "\n\t" << "Exits the program." << "\n" <<endl;
+				cout << "help" << "\n\t" << "Shows this list of commands." << "\n" <<endl;
 			}
 		} catch (ConnectionClosedException&) {
 			cerr << "Server closed down!" << endl;
