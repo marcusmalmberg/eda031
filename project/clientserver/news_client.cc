@@ -49,21 +49,21 @@ int main(int argc, char* argv[]) {
 					size_t id = atoi(cmd.c_str());
 					if ( !id && cmd != "0" ) {
 						cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+						continue;
+					}
+					cout << "Listing articles for ng with id: " << cmd << endl;
+					ComListArtPacket com;
+					com.id = id;
+					com.write(&conn);
+					AnsListArtPacket ans;
+					MessageHandler::read_cmd(&conn);
+					ans.read(&conn);
+					if(ans.ans == Protocol::ANS_ACK) {
+						for_each(ans.arts.begin(), ans.arts.end(), [] (Article a) {
+							cout << a.id << ". " << a.title << endl;
+						});
 					} else {
-						cout << "Listing articles for ng with id: " << cmd << endl;
-						ComListArtPacket com;
-						com.id = id;
-						com.write(&conn);
-						AnsListArtPacket ans;
-						MessageHandler::read_cmd(&conn);
-						ans.read(&conn);
-						if(ans.ans == Protocol::ANS_ACK) {
-							for_each(ans.arts.begin(), ans.arts.end(), [] (Article a) {
-								cout << a.id << ". " << a.title << endl;
-							});
-						} else {
-							cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
-						}
+						cout << "Error: " << Protocol::getTextualError(ans.err) << endl;
 					}
 				} else { 	// LIST_NG
 					cout << "Listing all newsgroups:" << endl;
@@ -78,9 +78,19 @@ int main(int argc, char* argv[]) {
 				}
 			} else if (cmd == "read") {		// GET_ART
 				size_t ng_id;
-				cin >> ng_id;
+				if(!(cin >> ng_id)) {
+					cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+					cin.clear();
+					cin.ignore(std::numeric_limits<streamsize>::max());
+					continue;
+				}
 				size_t art_id;
-				cin >> art_id;
+				if(!(cin >> art_id)) {
+					cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+					cin.clear();
+					cin.ignore(std::numeric_limits<streamsize>::max());
+					continue;
+				}
 				ComGetArtPacket com;
 				com.ng_id = ng_id;
 				com.art_id = art_id;
@@ -98,7 +108,7 @@ int main(int argc, char* argv[]) {
 				if (cin >> cmd) {
 					if (cmd == "ng") {		// CREATE_NG
 						string name;
-						cin >> name;
+						cin >> name; // TODO: Secure this
 						ComCreateNgPacket com;
 						com.name = name;
 						com.write(&conn);
@@ -112,13 +122,13 @@ int main(int argc, char* argv[]) {
 						}
 					} else {		// CREATE_ART
 						size_t ng_id;
-						cin >> ng_id;
+						cin >> ng_id; // TODO: Secure this
 						string title;
-						cin >> title;
+						cin >> title; // TODO: Secure this
 						string author;
-						cin >> author;
+						cin >> author; // TODO: Secure this
 						string text;
-						cin >> text;
+						cin >> text; // TODO: Secure this
 						ComCreateArtPacket com;
 						com.ng_id = ng_id;
 						com.title = title;
@@ -139,7 +149,7 @@ int main(int argc, char* argv[]) {
 				if (cin >> cmd) {
 					if (cmd == "ng") {		// DELET_NG
 						size_t id;
-						cin >> id;
+						cin >> id; // TODO: Secure this
 						ComDeleteNgPacket com;
 						com.id = id;
 						com.write(&conn);
@@ -153,9 +163,9 @@ int main(int argc, char* argv[]) {
 						}
 					} else {		// DELETE_ART
 						size_t ng_id;
-						cin >> ng_id;
+						cin >> ng_id; // TODO: Secure this
 						size_t art_id;
-						cin >> art_id;
+						cin >> art_id; // TODO: Secure this
 						ComDeleteArtPacket com;
 						com.ng_id = ng_id;
 						com.art_id = art_id;
