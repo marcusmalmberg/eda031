@@ -1,6 +1,5 @@
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <errno.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -14,9 +13,15 @@ using namespace protocol;
 
 namespace news_server {
 
+	DBFile::DBFile() : root("db") {
+		mkdir(root.c_str(), 0777);
+	}
+
 	vector<Newsgroup> DBFile::list_ng() const {
 		vector<Newsgroup> ngs;
-		ifstream in("list");
+		string list = root;
+		list += "/list";
+		ifstream in(list.c_str());
 		string line;
 		while (getline(in, line)) {
 			cout << line << endl;
@@ -40,7 +45,7 @@ namespace news_server {
 	pair<size_t, vector<Article>> DBFile::list_art(const size_t id) const {
 		struct stat buf;
 		ostringstream oss;
-		oss << id;
+		oss << root << "/" << id << "/";
 		string dir = oss.str();
 		int status = stat(dir.c_str(), &buf);
 		if (status != 0 || !S_ISDIR(buf.st_mode)) {
@@ -49,17 +54,21 @@ namespace news_server {
 		}
 		vector<Article> arts;
 		string list = dir;
-		list += "/list";
-		ifstream in(list);
+		list += "list";
+		ifstream in(list.c_str());
 		string line;
-		while (in) {
-			getline(in, line);
+		while (getline(in, line)) {
 			istringstream iss(line);
 			string sub;
 			iss >> sub;
 			size_t id = atoi(sub.c_str());
-			iss >> noskipws >> sub;
-			Article a(id, sub, "", "");
+			string title;
+			iss >> title;
+			while (iss >> sub) {
+				title += " ";
+				title += sub;
+			}
+			Article a(id, title, "", "");
 			arts.push_back(a);
 		}
 		in.close();
@@ -71,18 +80,19 @@ namespace news_server {
 		size_t ng_curr_id = 0;
 		auto itr = find_if(ngs.begin(), ngs.end(), [&] (Newsgroup ng)-> bool  {
 				ng_curr_id = ng.id;
-				cout << ng.id << endl;
 				return ng.name == name;
 		});
 		if (itr != ngs.end()) {
 			return Protocol::ERR_NG_ALREADY_EXISTS;
 		}
-		ofstream out("list", ios_base::out | ios_base::app);
+		string list = root;
+		list += "/list";
+		ofstream out(list.c_str(), ios_base::out | ios_base::app);
 		size_t ng_next_id = ng_curr_id + 1;
 		out << ng_next_id << " " << name << endl;
 		out.close();
 		ostringstream oss;
-		oss << ng_next_id;
+		oss << root << "/" << ng_next_id;
 		string dir = oss.str();
 		mkdir(dir.c_str(), 0777);
 		return Protocol::ANS_ACK;
@@ -95,18 +105,23 @@ namespace news_server {
 			return Protocol::ERR_NG_DOES_NOT_EXIST;
 		}
 		ngs.erase(itr);
-		ostringstream oss;
-		oss << id;
-		string dir = oss.str();
-		ofstream out("list");
+		string list = root;
+		list += "/list";
+		ofstream out(list.c_str());
 		for_each(ngs.begin(), ngs.end(), [&] (Newsgroup ng) {
 			out << ng.id << " " << ng.name << endl;
+		});
+		out.close();
+		vector<Article> arts = list_art(id).second;
+		ostringstream oss;
+		oss << root << "/" << id << "/";
+		string dir = oss.str();
+		for_each(arts.begin(), arts.end(), [&] (Article a) {
 			ostringstream oss;
-			oss << dir << "/" << ng.id;
+			oss << dir << a.id;
 			string file = oss.str();
 			remove(file.c_str());
 		});
-		out.close();
 		rmdir(dir.c_str());
 		return Protocol::ANS_ACK;
 	}
@@ -127,14 +142,30 @@ namespace news_server {
 	}
 
 	size_t DBFile::create_art(const size_t ng_id, const string& title, const string& author, const string& text) {
-	//	auto itr_ng = arts.find(ng_id);
-	//	if (itr_ng == arts.end()) {
+		pair<size_t, vector<Article>> p = list_art(ng_id);
+		if (p.first != Protocol::ANS_ACK) {
 			return Protocol::ERR_NG_DOES_NOT_EXIST;
-	//	}
-	//	vector<Article>& as = itr_ng->second;
-	//	Article a(art_next_id[ng_id]++, title, author, text);
-	//	as.push_back(a);
-	//	return Protocol::ANS_ACK;
+		}
+		vector<Article> arts = p.second;
+		size_t art_curr_id = 0;
+		for_each(arts.begin(), arts.end(), [&] (Article a) {
+			art_curr_id = a.id;
+		});
+		size_t art_next_id = art_curr_id + 1;
+		ostringstream oss;
+		oss << root << "/" << ng_id << "/";
+		string dir = oss.str();
+		string list = dir;
+		list += "list";
+		ofstream out(list.c_str(), ios_base::out | ios_base::app);
+		out << art_next_id << " " << title << endl;
+		ostringstream oss2;
+		oss2 << dir << art_next_id;
+		string file = oss2.str();
+		ofstream out2(file.c_str());
+		out2 << author << endl;
+		out2 << text << endl;
+		return Protocol::ANS_ACK;
 	}
 
 	size_t DBFile::delete_art(const size_t ng_id, const size_t art_id) {
