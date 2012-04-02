@@ -81,14 +81,14 @@ int main(int argc, char* argv[]) {
 				if(!(cin >> ng_id)) {
 					cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
 					cin.clear();
-					cin.ignore(std::numeric_limits<streamsize>::max());
+					cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
 					continue;
 				}
 				size_t art_id;
 				if(!(cin >> art_id)) {
 					cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
 					cin.clear();
-					cin.ignore(std::numeric_limits<streamsize>::max());
+					cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
 					continue;
 				}
 				ComGetArtPacket com;
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
 				if (cin >> cmd) {
 					if (cmd == "ng") {		// CREATE_NG
 						string name;
-						cin >> name; // TODO: Secure this
+						cin >> name;
 						ComCreateNgPacket com;
 						com.name = name;
 						com.write(&conn);
@@ -122,13 +122,18 @@ int main(int argc, char* argv[]) {
 						}
 					} else {		// CREATE_ART
 						size_t ng_id;
-						cin >> ng_id; // TODO: Secure this
+						if(!(cin >> ng_id)) {
+							cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+							cin.clear();
+							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+							continue;
+						}
 						string title;
-						cin >> title; // TODO: Secure this
+						cin >> title;
 						string author;
-						cin >> author; // TODO: Secure this
+						cin >> author;
 						string text;
-						cin >> text; // TODO: Secure this
+						cin >> text;
 						ComCreateArtPacket com;
 						com.ng_id = ng_id;
 						com.title = title;
@@ -149,7 +154,12 @@ int main(int argc, char* argv[]) {
 				if (cin >> cmd) {
 					if (cmd == "ng") {		// DELET_NG
 						size_t id;
-						cin >> id; // TODO: Secure this
+						if(!(cin >> id)) {
+							cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+							cin.clear();
+							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+							continue;
+						}
 						ComDeleteNgPacket com;
 						com.id = id;
 						com.write(&conn);
@@ -163,9 +173,19 @@ int main(int argc, char* argv[]) {
 						}
 					} else {		// DELETE_ART
 						size_t ng_id;
-						cin >> ng_id; // TODO: Secure this
+						if(!(cin >> ng_id)) {
+							cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+							cin.clear();
+							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+							continue;
+						}
 						size_t art_id;
-						cin >> art_id; // TODO: Secure this
+						if(!(cin >> art_id)) {
+							cout << "Expected an integer. Type \"help\" if you need to see the commands" << endl;
+							cin.clear();
+							cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
+							continue;
+						}
 						ComDeleteArtPacket com;
 						com.ng_id = ng_id;
 						com.art_id = art_id;
