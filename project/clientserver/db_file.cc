@@ -150,7 +150,12 @@ namespace news_server {
 		string title, author, text;
 	    getline(in, title);
 	    getline(in, author);
-	    getline(in, text);
+		getline(in, text);
+		string s;
+		while (getline(in, s)) {
+			text += "\n";
+			text += s;
+		}
 		in.close();
 		Article a(art_id, title, author, text);
 		return make_pair(Protocol::ANS_ACK, a);

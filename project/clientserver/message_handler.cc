@@ -36,11 +36,11 @@ namespace news_server {
 	}
 
 	size_t MessageHandler::read_cmd(const Connection* conn) {
-		return MessageHandler::read_int(conn);
+		return conn->read();
 	}
 
 	void MessageHandler::write_cmd(const Connection* conn, const size_t cmd) {
-		MessageHandler::write_int(conn, cmd);
+		conn->write(cmd);
 	}
 
 	int MessageHandler::read_int(const Connection* conn) {
