@@ -24,7 +24,6 @@ namespace news_server {
 		ifstream in(list.c_str());
 		string line;
 		while (getline(in, line)) {
-			cout << line << endl;
 			istringstream iss(line);
 			string sub;
 			iss >> sub;
@@ -116,6 +115,9 @@ namespace news_server {
 		ostringstream oss;
 		oss << root << "/" << id << "/";
 		string dir = oss.str();
+		list = dir;
+		list += "list";
+		remove(list.c_str());
 		for_each(arts.begin(), arts.end(), [&] (Article a) {
 			ostringstream oss;
 			oss << dir << a.id;
@@ -127,18 +129,30 @@ namespace news_server {
 	}
 	
 	pair<size_t, Article> DBFile::get_art(const size_t ng_id, size_t art_id) const {
-		//auto itr_ng = arts.find(ng_id);
-		//if (itr_ng == arts.end()) {
-		//	Article a;
-		//	return make_pair(Protocol::ERR_NG_DOES_NOT_EXIST, a);
-		//}
-		//const vector<Article>& as = itr_ng->second;
-		//auto itr_art = find_if(as.begin(), as.end(), [&] (Article a) {return a.id == art_id;});
-		//if (itr_art == as.end()) {
+		struct stat buf;
+		ostringstream oss;
+		oss << root << "/" << ng_id << "/";
+		string dir = oss.str();
+		int status;
+		status = stat(dir.c_str(), &buf);
+		if (status != 0 || !S_ISDIR(buf.st_mode)) {
+			Article a;
+			return make_pair(Protocol::ERR_NG_DOES_NOT_EXIST, a);
+		}
+		oss << art_id;
+		string file = oss.str();
+		status = stat(file.c_str(), &buf);
+		if (status != 0 || !S_ISREG(buf.st_mode)) {
 			Article a;
 			return make_pair(Protocol::ERR_ART_DOES_NOT_EXIST, a);
-		//}
-		//return make_pair(Protocol::ANS_ACK, *itr_art);
+		}
+		ifstream in(file.c_str());
+		string title, author, text;
+	    getline(in, title);
+	    getline(in, author);
+	    getline(in, text);
+		Article a(art_id, title, author, text);
+		return make_pair(Protocol::ANS_ACK, a);
 	}
 
 	size_t DBFile::create_art(const size_t ng_id, const string& title, const string& author, const string& text) {
@@ -163,6 +177,7 @@ namespace news_server {
 		oss2 << dir << art_next_id;
 		string file = oss2.str();
 		ofstream out2(file.c_str());
+		out2 << title << endl;
 		out2 << author << endl;
 		out2 << text << endl;
 		return Protocol::ANS_ACK;
